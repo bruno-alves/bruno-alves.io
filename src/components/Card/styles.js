@@ -7,7 +7,7 @@ export const Container = styled.div`
   width: 110px;
   height: 95px;
   border-radius: 10px;
-  background-color: ${(props) => props.color};
+  background-color: rgb(${(props) => props.config.rgb});
 
   span {
     display: flex;
@@ -20,5 +20,15 @@ export const Container = styled.div`
     font-size: 20px;
     font-weight: bold;
     text-transform: uppercase;
+  }
+
+  button {
+    background-image: url('${(props) => props.image}');
+    background-size: cover;
+    background-color: transparent;
+    cursor: pointer;
+    border: none;
+    padding: 32.5px;
+    border-radius: 50%;
   }
 `;
