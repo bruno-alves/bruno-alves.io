@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 
+import PropTypes from 'prop-types';
 import { Container } from './styles';
 
 function Card(props) {
   const [isPressed, setPressed] = useState(false);
   const { game } = props;
+  const history = useHistory();
 
   return (
     <Container
@@ -22,6 +24,7 @@ function Card(props) {
         onMouseUp={(e) => {
           if (e.nativeEvent.which === 1) setPressed(false);
         }}
+        onClick={() => history.push(game.name.replace(/ /g, ''))}
       />
     </Container>
   );

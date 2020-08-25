@@ -1,20 +1,17 @@
 import React, { Component } from 'react';
 
+import Games from '../../games/config';
+
 import { Container, Menu } from './styles';
 import Card from '../../components/Card';
 
-import Games from '../../helpers/games';
-
 export default class Main extends Component {
-  state = { games: [] };
+  state = {
+    games: [],
+  };
 
   componentDidMount() {
     this.setState({ games: Games });
-
-    Games.forEach((game) => {
-      new Image().src = game.config.unPressed;
-      new Image().src = game.config.pressed;
-    });
   }
 
   render() {

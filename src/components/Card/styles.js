@@ -20,6 +20,12 @@ export const Container = styled.div`
     font-size: 20px;
     font-weight: bold;
     text-transform: uppercase;
+
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
   }
 
   button {
