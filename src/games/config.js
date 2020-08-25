@@ -1,42 +1,52 @@
 export default [
   {
     name: 'snake',
-    config: {
-      rgb: '255, 88, 88',
-      unPressed: require('../assets/playRed.png'),
-      pressed: require('../assets/pressedRed.png'),
+    colors: {
+      card: '255, 88, 88',
+      unPressedBorderButton: '236, 117, 177',
+      unPressedButton: '247, 81, 71',
+      pressedBorderButton: '255, 255, 255',
+      pressedButton: '255, 255, 255',
     },
   },
   {
     name: 'tic tac toe',
-    config: {
-      rgb: '119, 222, 119',
-      unPressed: require('../assets/playGreen.png'),
-      pressed: require('../assets/pressedGreen.png'),
+    colors: {
+      card: '119, 222, 119',
+      unPressedBorderButton: '36, 181, 81',
+      unPressedButton: '74, 206, 74',
+      pressedBorderButton: '255, 255, 255',
+      pressedButton: '255, 255, 255',
     },
   },
   {
     name: 'mini swepper',
-    config: {
-      rgb: '186, 108, 245',
-      unPressed: require('../assets/playPurple.png'),
-      pressed: require('../assets/pressedPurple.png'),
+    colors: {
+      card: '186, 108, 245',
+      unPressedBorderButton: '144, 64, 206',
+      unPressedButton: '170, 77, 241',
+      pressedBorderButton: '255, 255, 255',
+      pressedButton: '255, 255, 255',
     },
   },
   {
     name: 'genius',
-    config: {
-      rgb: '111, 111, 255',
-      unPressed: require('../assets/playBlue.png'),
-      pressed: require('../assets/pressedBlue.png'),
+    colors: {
+      card: '111, 111, 255',
+      unPressedBorderButton: '73, 73, 230',
+      unPressedButton: '85, 85, 249',
+      pressedBorderButton: '255, 255, 255',
+      pressedButton: '255, 255, 255',
     },
   },
   {
     name: 'tetris',
-    config: {
-      rgb: '255, 190, 71',
-      unPressed: require('../assets/playOrange.png'),
-      pressed: require('../assets/pressedOrange.png'),
+    colors: {
+      card: '255, 190, 71',
+      unPressedBorderButton: '210, 146, 29',
+      unPressedButton: '245, 173, 42',
+      pressedBorderButton: '255, 255, 255',
+      pressedButton: '255, 255, 255',
     },
   },
 ];

@@ -1,30 +1,20 @@
-import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import React from 'react';
+// import { useHistory } from 'react-router-dom';
 
 import PropTypes from 'prop-types';
 import { Container } from './styles';
 
 function Card(props) {
-  const [isPressed, setPressed] = useState(false);
+  // const history = useHistory();
   const { game } = props;
-  const history = useHistory();
 
   return (
-    <Container
-      config={game.config}
-      image={isPressed ? game.config.pressed : game.config.unPressed}
-    >
+    <Container colors={game.colors}>
       <span>{game.name}</span>
       <button
         type="button"
         aria-label="play"
-        onMouseDown={(e) => {
-          if (e.nativeEvent.which === 1) setPressed(true);
-        }}
-        onMouseUp={(e) => {
-          if (e.nativeEvent.which === 1) setPressed(false);
-        }}
-        onClick={() => history.push(game.name.replace(/ /g, ''))}
+        // onClick={() => history.push(game.name.replace(/ /g, ''))}
       />
     </Container>
   );
@@ -33,10 +23,12 @@ function Card(props) {
 Card.propTypes = {
   game: PropTypes.shape({
     name: PropTypes.string.isRequired,
-    config: PropTypes.shape({
-      rgb: PropTypes.string.isRequired,
-      unPressed: PropTypes.string.isRequired,
-      pressed: PropTypes.string.isRequired,
+    colors: PropTypes.shape({
+      card: PropTypes.string.isRequired,
+      unPressedBorderButton: PropTypes.string.isRequired,
+      unPressedButton: PropTypes.string.isRequired,
+      pressedBorderButton: PropTypes.string.isRequired,
+      pressedButton: PropTypes.string.isRequired,
     }),
   }).isRequired,
 };
