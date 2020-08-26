@@ -29,23 +29,38 @@ export const Container = styled.div`
   }
 
   button {
-    background-image: url(${require('../../assets/icon-play.png')});
-    background-color: rgb(${(props) => props.colors.unPressedButton});
-    background-size: 55px 55px;
-    background-repeat: no-repeat;
+    background-image: linear-gradient(
+      -55deg,
+      rgb(${(props) => props.colors.gradientEnd}),
+      rgb(${(props) => props.colors.gradientStart})
+    );
     cursor: pointer;
-    border: 6px solid rgb(${(props) => props.colors.unPressedBorderButton});
-    padding: 25px;
+    padding: 3px;
     border-radius: 50%;
+    border: 7px solid rgb(${(props) => props.colors.unPressedBorder});
+    box-shadow: -3px -3px rgb(${(props) => props.colors.shadown}) inset;
     outline: none;
 
     &:active {
-      background-color: rgb(216, 54, 45);
-      background-size: 40px 40px;
-      background-position-x: 6px;
-      background-position-y: 6px;
-      border: 11px solid rgb(249, 98, 132);
-      padding: 25px;
+      background: linear-gradient(
+        -55deg,
+        rgb(${(props) => props.colors.gradientStart}),
+        rgb(${(props) => props.colors.gradientEnd})
+      );
+      padding: 6px;
+      border: 9px solid rgb(${(props) => props.colors.pressedBorder});
+      box-shadow: 3px 3px rgb(${(props) => props.colors.shadown}) inset;
+
+      img {
+        width: 35px;
+        height: 35px;
+      }
+    }
+
+    img {
+      display: flex;
+      width: 45px;
+      height: 45px;
     }
   }
 `;

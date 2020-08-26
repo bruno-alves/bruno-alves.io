@@ -1,11 +1,11 @@
 import React from 'react';
-// import { useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 import PropTypes from 'prop-types';
 import { Container } from './styles';
 
 function Card(props) {
-  // const history = useHistory();
+  const history = useHistory();
   const { game } = props;
 
   return (
@@ -14,8 +14,10 @@ function Card(props) {
       <button
         type="button"
         aria-label="play"
-        // onClick={() => history.push(game.name.replace(/ /g, ''))}
-      />
+        onClick={() => history.push(game.name.replace(/ /g, ''))}
+      >
+        <img src={require('../../assets/icon-play.png')} alt="play" />
+      </button>
     </Container>
   );
 }
@@ -25,10 +27,11 @@ Card.propTypes = {
     name: PropTypes.string.isRequired,
     colors: PropTypes.shape({
       card: PropTypes.string.isRequired,
-      unPressedBorderButton: PropTypes.string.isRequired,
-      unPressedButton: PropTypes.string.isRequired,
-      pressedBorderButton: PropTypes.string.isRequired,
-      pressedButton: PropTypes.string.isRequired,
+      gradientStart: PropTypes.string.isRequired,
+      gradientEnd: PropTypes.string.isRequired,
+      unPressedBorder: PropTypes.string.isRequired,
+      pressedBorder: PropTypes.string.isRequired,
+      shadown: PropTypes.string.isRequired,
     }),
   }).isRequired,
 };
