@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-
 import Games from '../../games/config';
 
 import { Container, Menu } from './styles';

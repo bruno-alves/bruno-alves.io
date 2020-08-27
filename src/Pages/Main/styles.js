@@ -18,9 +18,11 @@ export const Menu = styled.ul`
   list-style-type: none;
 
   li {
+    display: flex;
+    align-items: center;
     width: 110px;
-    height: 115px;
-    margin: 10px;
+    height: 140px;
+    margin: 0 10px 10px 10px;
     border-radius: 10px;
   }
 `;

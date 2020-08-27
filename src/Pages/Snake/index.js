@@ -1,5 +1,17 @@
 import React from 'react';
 
-export default function Snake() {
-  return <h1>SNAKE</h1>;
+function Snake() {
+  return (
+    <table>
+      <tbody>
+        <tr>
+          <td />
+          <td />
+          <td />
+        </tr>
+      </tbody>
+    </table>
+  );
 }
+
+export default Snake;
