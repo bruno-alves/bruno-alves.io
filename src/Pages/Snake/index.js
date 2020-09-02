@@ -1,22 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Table } from './styles';
 
 function Snake() {
-  const [snake, setSnake] = useState(
-    Array.from(Array(15), () => Array.from(Array(15)))
-  );
+  const [direction, setDirection] = useState('A');
+  const [snake, setSnake] = useState(() => {
+    const s = Array.from(Array(15), () => Array.from(Array(15)));
+    s[0][0] = 'tail';
+    s[0][1] = 'body';
+    s[0][2] = 'head';
 
-  setSnake(() => {
-    const old = [...snake];
-    old[0][0] = 'tail';
-    old[0][1] = 'body';
-    old[0][2] = 'head';
+    return s;
+  });
 
-    return old;
-  }, snake);
+  const changeDirection = (e) => {
+    console.log('keyUP');
+
+    switch (e.keyCode) {
+      case 87:
+        setDirection('W');
+        break;
+      case 65:
+        setDirection('A');
+        break;
+      case 83:
+        setDirection('S');
+        break;
+      case 68:
+        setDirection('D');
+        break;
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('keyup', changeDirection, false);
+  });
 
   return (
     <Table>
+      {console.log(direction)}
       <tbody>
         {Array.from(Array(15).keys()).map((tr) => (
           <tr key={String(tr)}>
