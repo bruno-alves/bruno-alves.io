@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Table } from './styles';
 
 function Snake() {
-  const [direction, setDirection] = useState('A');
+  const [direction, setDirection] = useState('D');
   const [snake, setSnake] = useState(() => {
     const s = Array.from(Array(15), () => Array.from(Array(15)));
     s[0][0] = 'tail';
@@ -13,8 +13,6 @@ function Snake() {
   });
 
   const changeDirection = (e) => {
-    console.log('keyUP');
-
     switch (e.keyCode) {
       case 87:
         setDirection('W');
@@ -31,28 +29,36 @@ function Snake() {
     }
   };
 
+  const move = (direction) => {
+    setSnake(() => {
+      const s = [...snake];
+      s[0][0] = undefined;
+      s[0][1] = 'tail';
+      s[0][2] = 'body';
+      s[0][3] = 'head';
+
+      return s;
+    });
+  };
+
   useEffect(() => {
-    document.addEventListener('keyup', changeDirection, false);
+    // document.addEventListener('keyup', changeDirection, false);
+
+    const timer = setInterval(() => {
+      move(direction);
+    }, 1000);
+
+    return () => clearInterval(timer);
   });
 
   return (
     <Table>
-      {console.log(direction)}
       <tbody>
-        {Array.from(Array(15).keys()).map((tr) => (
-          <tr key={String(tr)}>
-            {Array.from(Array(15).keys()).map((td) => {
-              switch (snake[tr][td]) {
-                case 'head':
-                  return <td className="head" key={String(td)} />;
-                case 'body':
-                  return <td className="body" key={String(td)} />;
-                case 'tail':
-                  return <td className="tail" key={String(td)} />;
-                default:
-                  return <td key={String(td)} />;
-              }
-            })}
+        {snake.map((tr, a) => (
+          <tr key={String(a)}>
+            {tr.map((td, b) => (
+              <td className={td} key={String(b)} />
+            ))}
           </tr>
         ))}
       </tbody>
