@@ -3,14 +3,7 @@ import { Table } from './styles';
 
 function Snake() {
   const [direction, setDirection] = useState('D');
-  const [snake, setSnake] = useState(() => {
-    const s = Array.from(Array(15), () => Array.from(Array(15)));
-    s[0][0] = 'tail';
-    s[0][1] = 'body';
-    s[0][2] = 'head';
-
-    return s;
-  });
+  const [snake, setSnake] = useState([0, 1, 2]);
 
   const changeDirection = (e) => {
     switch (e.keyCode) {
@@ -30,19 +23,11 @@ function Snake() {
   };
 
   const move = (direction) => {
-    setSnake(() => {
-      const s = [...snake];
-      s[0][0] = undefined;
-      s[0][1] = 'tail';
-      s[0][2] = 'body';
-      s[0][3] = 'head';
-
-      return s;
-    });
+    setSnake(() => {});
   };
 
   useEffect(() => {
-    // document.addEventListener('keyup', changeDirection, false);
+    document.addEventListener('keyup', changeDirection, false);
 
     const timer = setInterval(() => {
       move(direction);
@@ -51,17 +36,10 @@ function Snake() {
     return () => clearInterval(timer);
   });
 
+  const field = Array.from(Array(15), () => Array.from(Array(15)));
   return (
     <Table>
-      <tbody>
-        {snake.map((tr, a) => (
-          <tr key={String(a)}>
-            {tr.map((td, b) => (
-              <td className={td} key={String(b)} />
-            ))}
-          </tr>
-        ))}
-      </tbody>
+      <tbody />
     </Table>
   );
 }
