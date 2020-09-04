@@ -21,6 +21,6 @@ module.exports = {
     'react/static-property-placement': 0,
     "global-require": 0,
     "import/no-dynamic-require": 0,
-    "default-case": 0
+    "default-case": 0,
   },
 };
