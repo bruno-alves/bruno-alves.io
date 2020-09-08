@@ -20,7 +20,6 @@ module.exports = {
     'react/state-in-constructor': 0,
     'react/static-property-placement': 0,
     "global-require": 0,
-    "import/no-dynamic-require": 0,
-    "default-case": 0,
+    "import/no-dynamic-require": 0
   },
 };

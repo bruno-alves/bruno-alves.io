@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Table } from './styles';
 
 function Snake() {
-  const [direction, setDirection] = useState('D');
   const [snake, setSnake] = useState([0, 1, 2]);
+  const [direction, setDirection] = useState('D');
 
-  // Função que movimenta a snake dentro do array
+  /*
   const move = () => {
     const s = [...snake];
     setSnake(
@@ -20,14 +20,15 @@ function Snake() {
               return s[i] + 15;
             case 'D':
               return s[i] + 1;
+            default:
           }
         }
         return s[i + 1];
       })
     );
   };
+  */
 
-  // Função que muda a direção da snake
   const changeDirection = (e) => {
     switch (e.keyCode) {
       case 87:
@@ -42,24 +43,46 @@ function Snake() {
       case 68:
         setDirection('D');
         break;
+      default:
     }
   };
 
-  // Adiciona a classe em cada TD da tabela
   const setClassName = (position) => {
-    if (snake.includes(position)) return 'body';
-    return undefined;
+    if (snake[0] === position) return 'tail';
+    if (snake[snake.length - 1] === position) return 'head';
+
+    return snake.includes(position) ? 'body' : undefined;
   };
 
   useEffect(() => {
-    document.addEventListener('keyup', changeDirection, false);
+    document.addEventListener('keydown', changeDirection);
+  }, []);
 
-    const timer = setInterval(() => {
-      move();
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const s = [...snake];
+      setSnake(
+        s.map((_, i) => {
+          if (s.length === i + 1) {
+            switch (direction) {
+              case 'W':
+                return s[i] - 15;
+              case 'A':
+                return s[i] - 1;
+              case 'S':
+                return s[i] + 15;
+              case 'D':
+                return s[i] + 1;
+              default:
+            }
+          }
+          return s[i + 1];
+        })
+      );
     }, 1000);
 
-    return () => clearInterval(timer);
-  });
+    return () => clearTimeout(timer);
+  }, [snake]);
 
   return (
     <Table>
