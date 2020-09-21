@@ -1,11 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Table } from './styles';
 
 function Snake() {
-  const [snake, setSnake] = useState([0, 1, 2]);
+  const [snake, setSnake] = useState([]);
   const [direction, setDirection] = useState('D');
 
   useEffect(() => {
+    setSnake([
+      { class: 'tail', position: 0 },
+      { class: 'body', position: 1 },
+      { class: 'head', position: 2 },
+    ]);
+
     const changeDirection = (e) => {
       switch (e.keyCode) {
         case 87:
@@ -24,60 +30,67 @@ function Snake() {
       }
     };
 
-    document.addEventListener('keydown', changeDirection);
+    document.addEventListener('keydown', changeDirection, false);
     return () => document.removeEventListener('keydown', changeDirection);
   }, []);
 
-  const setClassName = (x, y) => {
-    const p = x * 15 + y;
+  function useInterval(callback, delay) {
+    const savedCallback = useRef();
 
-    if (snake.includes(p)) {
-      if (snake[0] === p) return 'tail';
-      if (snake[snake.length - 1] === p) return 'head';
+    useEffect(() => {
+      savedCallback.current = callback;
+    }, [callback]);
 
-      return 'body';
-    }
+    useEffect(() => {
+      function tick() {
+        savedCallback.current();
+      }
 
-    return undefined;
-  };
+      if (delay !== null) {
+        const id = setInterval(tick, delay);
+        return () => clearInterval(id);
+      }
+    }, [delay]);
+  }
 
   const move = () => {
     const s = [...snake];
-    setSnake(
-      s.map((_, i) => {
-        if (s.length === i + 1) {
-          switch (direction) {
-            case 'W':
-              return s[i] - 15;
-            case 'A':
-              return s[i] - 1;
-            case 'S':
-              return s[i] + 15;
-            case 'D':
-              return s[i] + 1;
-            default:
-          }
+
+    for (let i = 0; i < s.length; i += 1) {
+      if (i !== s.length - 1) s[i].position = s[i + 1].position;
+      else
+        switch (direction) {
+          case 'W':
+            s[i].position -= 15;
+            break;
+          case 'A':
+            s[i].position -= 1;
+            break;
+          case 'S':
+            s[i].position += 15;
+            break;
+          case 'D':
+            s[i].position += 1;
+            break;
+          default:
         }
-        return s[i + 1];
-      })
-    );
+    }
+
+    setSnake(s);
   };
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      move();
-    }, 1000);
-
-    return () => clearInterval(timer);
-  });
+  useInterval(move, 100);
 
   return (
     <Table>
       <tbody>
-        {Array.from(Array(15)).map((_, x) => (
-          <tr key={x.toString()}>
-            {Array.from(Array(15)).map((__, y) => (
-              <td key={y.toString()} className={setClassName(x, y)} />
+        {new Array(15).fill().map((_, y) => (
+          <tr key={y.toString()}>
+            {new Array(15).fill().map((__, x) => (
+              <td
+                key={x.toString()}
+                className={snake.find((s) => s.position === 15 * y + x)?.class}
+              />
             ))}
           </tr>
         ))}
