@@ -2,29 +2,28 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Table } from './styles';
 
 function Snake() {
-  const [snake, setSnake] = useState([]);
-  const [direction, setDirection] = useState('D');
+  const direction = useRef('D');
+  const [newDirection, setNewDirection] = useState('D');
+  const [snake, setSnake] = useState([
+    { class: 'tail', position: 0 },
+    { class: 'body', position: 1 },
+    { class: 'head', position: 2 },
+  ]);
 
   useEffect(() => {
-    setSnake([
-      { class: 'tail', position: 0 },
-      { class: 'body', position: 1 },
-      { class: 'head', position: 2 },
-    ]);
-
     const changeDirection = (e) => {
       switch (e.keyCode) {
         case 87:
-          setDirection('W');
+          if (direction.current !== 'S') setNewDirection('W');
           break;
         case 65:
-          setDirection('A');
+          if (direction.current !== 'D') setNewDirection('A');
           break;
         case 83:
-          setDirection('S');
+          if (direction.current !== 'W') setNewDirection('S');
           break;
         case 68:
-          setDirection('D');
+          if (direction.current !== 'A') setNewDirection('D');
           break;
         default:
       }
@@ -32,26 +31,7 @@ function Snake() {
 
     document.addEventListener('keydown', changeDirection, false);
     return () => document.removeEventListener('keydown', changeDirection);
-  }, []);
-
-  function useInterval(callback, delay) {
-    const savedCallback = useRef();
-
-    useEffect(() => {
-      savedCallback.current = callback;
-    }, [callback]);
-
-    useEffect(() => {
-      function tick() {
-        savedCallback.current();
-      }
-
-      if (delay !== null) {
-        const id = setInterval(tick, delay);
-        return () => clearInterval(id);
-      }
-    }, [delay]);
-  }
+  }, [newDirection]);
 
   const move = () => {
     const s = [...snake];
@@ -59,7 +39,7 @@ function Snake() {
     for (let i = 0; i < s.length; i += 1) {
       if (i !== s.length - 1) s[i].position = s[i + 1].position;
       else
-        switch (direction) {
+        switch ((direction.current = newDirection)) {
           case 'W':
             s[i].position -= 15;
             break;
@@ -73,10 +53,26 @@ function Snake() {
             s[i].position += 1;
             break;
           default:
+            throw new Error('invalid direction');
         }
     }
 
     setSnake(s);
+  };
+
+  const useInterval = (callback, delay) => {
+    const savedCallback = useRef();
+
+    useEffect(() => {
+      savedCallback.current = callback;
+    }, [callback]);
+
+    useEffect(() => {
+      const tick = () => savedCallback.current();
+
+      const timer = setInterval(tick, delay);
+      return () => clearInterval(timer);
+    }, [delay]);
   };
 
   useInterval(move, 100);
