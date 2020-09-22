@@ -1,10 +1,22 @@
 import styled from 'styled-components';
 
+export const Container = styled.div`
+  display: flex;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+`;
+
 export const Table = styled.table`
-  width: 800px;
-  height: 400px;
   border-collapse: collapse;
+  border-radius: 5px;
   background: rgb(80, 80, 80);
+
+  td {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+  }
 
   .head {
     background: red;
