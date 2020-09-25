@@ -19,14 +19,36 @@ export const Table = styled.table`
   }
 
   .head {
-    background: red;
+    background: rgb(247, 59, 59);
   }
 
   .body {
-    background: white;
+    background: rgb(179, 107, 216);
   }
 
   .tail {
-    background: yellow;
+    background: rgb(105, 171, 228);
+  }
+
+  .food {
+    animation-name: rotate;
+    animation-duration: 0.5s;
+    animation-iteration-count: infinite;
+  }
+
+  @keyframes rotate {
+    0% {
+      transform: scale(0.8);
+      background-color: green;
+    }
+    50% {
+      transform: scale(1);
+      background-color: lightgreen;
+      opacity: 0.5;
+    }
+    100% {
+      transform: scale(0.8);
+      background-color: green;
+    }
   }
 `;
