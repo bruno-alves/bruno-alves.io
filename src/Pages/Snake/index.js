@@ -4,35 +4,27 @@ import { Container, Table } from './styles';
 function Snake() {
   const [snake, setSnake] = useState();
   const [direction, setDirection] = useState();
+  const [time, setTime] = useState();
   const [foodPosition, setFoodPosition] = useState();
 
-  // Inicializando a snake e a direção
-  useEffect(() => {
+  // Inicializando que inicia/reinicia os valores dos stados
+  const init = () => {
     setSnake([
       { class: 'tail', position: 1 },
       { class: 'body', position: 2 },
-      { class: 'body', position: 3 },
-      { class: 'body', position: 4 },
-      { class: 'body', position: 5 },
-      { class: 'body', position: 6 },
-      { class: 'body', position: 7 },
-      { class: 'body', position: 8 },
-      { class: 'body', position: 9 },
-      { class: 'body', position: 10 },
-      { class: 'body', position: 11 },
-      { class: 'body', position: 12 },
-      { class: 'body', position: 13 },
-      { class: 'body', position: 14 },
-      { class: 'body', position: 15 },
-      { class: 'body', position: 16 },
-      { class: 'head', position: 17 },
+      { class: 'head', position: 3 },
     ]);
 
+    setTime(600);
     setDirection({ current: 'D', next: 'D' });
-    setFoodPosition(Math.floor(Math.random() * 446) + 4);
+    setFoodPosition(Math.floor(Math.random() * 447) + 4);
+  };
+
+  useEffect(() => {
+    init();
   }, []);
 
-  // Adicionado evento de mudança de direção
+  // Adicionado evento de mudanca de direcao
   useEffect(() => {
     const changeDirection = (e) => {
       const { current } = direction;
@@ -66,14 +58,14 @@ function Snake() {
     return () => document.removeEventListener('keydown', changeDirection);
   }, [direction]);
 
-  // Função que movimenta a snake dentro do array
+  // Funcao que movimenta a snake dentro do array
   const move = () => {
     const s = [...snake];
 
     for (let i = 0; i < s.length; i += 1) {
       // Movimentando a cauda e o corpo
       if (i !== s.length - 1) s[i].position = s[i + 1].position;
-      // Movimentando a cabeça
+      // Movimentando a cabeca
       else {
         let p = s[i].position;
 
@@ -96,18 +88,41 @@ function Snake() {
       }
     }
 
-    // Verificando colisão com a comida
-    if (s[s.length - 1].position === foodPosition) {
-      setFoodPosition(Math.floor(Math.random() * 446) + 4);
+    // Posicao da cabeca da snake
+    const headPosition = s[s.length - 1].position;
+
+    // Verificando colisao com a comida
+    if (headPosition === foodPosition) {
+      const allPositions = Array.from({ length: 450 }, (_, i) => i + 1);
+      const freePositions = allPositions.filter(
+        (x) => !s.map((y) => y.position).includes(x)
+      );
+
+      s.splice(1, 0, { class: 'body', position: s[0].position });
+
+      setTime((state) => (state - 100 <= 75 ? 75 : state - 100));
+      setFoodPosition(
+        freePositions[Math.floor(Math.random() * freePositions.length)]
+      );
     }
 
+    // Verificando colisao com a snake
+    if (
+      s
+        .filter((x) => x.class !== 'head')
+        .map((x) => x.position)
+        .includes(headPosition)
+    ) {
+      init();
+      return;
+    }
     setSnake(s);
     setDirection((state) => {
       return { current: state.next, next: state.next };
     });
   };
 
-  // Função que executa o movimento da snake depois de um determinado tempo
+  // Funcao que executa o movimento da snake depois de um determinado tempo
   const useInterval = (callback, delay) => {
     const savedCallback = useRef();
 
@@ -123,16 +138,15 @@ function Snake() {
     }, [delay]);
   };
 
-  // Função que adiciona a classe conforme o numero da TD
+  // Funcao que adiciona a classe conforme o numero da TD
   const setClassName = (x, y) => {
     const p = 30 * y + x + 1;
-
     if (foodPosition === p) return 'food';
 
     return snake?.find((s) => s.position === 30 * y + x + 1)?.class;
   };
 
-  useInterval(move, 75);
+  useInterval(move, time);
 
   return (
     <Container>
