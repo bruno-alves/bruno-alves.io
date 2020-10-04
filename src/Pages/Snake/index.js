@@ -15,7 +15,7 @@ function Snake() {
       { class: 'head', position: 3 },
     ]);
 
-    setTime(600);
+    setTime(50);
     setDirection({ current: 'D', next: 'D' });
     setFoodPosition(Math.floor(Math.random() * 447) + 4);
   };
@@ -91,21 +91,6 @@ function Snake() {
     // Posicao da cabeca da snake
     const headPosition = s[s.length - 1].position;
 
-    // Verificando colisao com a comida
-    if (headPosition === foodPosition) {
-      const allPositions = Array.from({ length: 450 }, (_, i) => i + 1);
-      const freePositions = allPositions.filter(
-        (x) => !s.map((y) => y.position).includes(x)
-      );
-
-      s.splice(1, 0, { class: 'body', position: s[0].position });
-
-      setTime((state) => (state - 100 <= 75 ? 75 : state - 100));
-      setFoodPosition(
-        freePositions[Math.floor(Math.random() * freePositions.length)]
-      );
-    }
-
     // Verificando colisao com a snake
     if (
       s
@@ -116,6 +101,21 @@ function Snake() {
       init();
       return;
     }
+
+    // Verificando colisao com a comida
+    if (headPosition === foodPosition) {
+      const allPosition = Array.from({ length: 450 }, (_, i) => i + 1);
+      const busyPosition = s.map((x) => x.position);
+      const freePosition = allPosition.filter((x) => !busyPosition.includes(x));
+
+      s.splice(1, 0, { class: 'body', position: s[0].position });
+
+      setTime((state) => (state - 100 <= 75 ? 75 : state - 100));
+      setFoodPosition(
+        freePosition[Math.floor(Math.random() * freePosition.length)]
+      );
+    }
+
     setSnake(s);
     setDirection((state) => {
       return { current: state.next, next: state.next };
