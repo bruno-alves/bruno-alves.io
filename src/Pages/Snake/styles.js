@@ -19,7 +19,7 @@ export const Table = styled.table`
   }
 
   .head {
-    background: rgb(247, 59, 59);
+    background: rgb(222, 156, 34);
   }
 
   .body {

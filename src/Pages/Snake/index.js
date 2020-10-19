@@ -7,22 +7,31 @@ function Snake() {
   const [time, setTime] = useState();
   const [foodPosition, setFoodPosition] = useState();
 
-  // Inicializando que inicia/reinicia os valores dos stados
-  const init = () => {
+  // Inicializando variaveis de estado
+  useEffect(() => {
     setSnake([
       { class: 'tail', position: 1 },
       { class: 'body', position: 2 },
       { class: 'head', position: 3 },
     ]);
 
-    setTime(50);
     setDirection({ current: 'D', next: 'D' });
     setFoodPosition(Math.floor(Math.random() * 447) + 4);
-  };
-
-  useEffect(() => {
-    init();
+    setTime(600);
   }, []);
+
+  // Função de restart
+  const restart = () => {
+    setSnake([
+      { class: 'tail', position: 1 },
+      { class: 'body', position: 2 },
+      { class: 'head', position: 3 },
+    ]);
+
+    setDirection({ current: 'D', next: 'D' });
+    setFoodPosition(Math.floor(Math.random() * 447) + 4);
+    setTime(600);
+  };
 
   // Adicionado evento de mudanca de direcao
   useEffect(() => {
@@ -71,7 +80,7 @@ function Snake() {
 
         switch (direction.next) {
           case 'W':
-            s[i].position = p > 30 ? (p -= 30) : 30 * 14 + p;
+            s[i].position = p > 30 ? (p -= 30) : p + 30 * 14;
             break;
           case 'A':
             s[i].position = (p + 29) % 30 !== 0 ? (p -= 1) : (p += 29);
@@ -92,13 +101,8 @@ function Snake() {
     const headPosition = s[s.length - 1].position;
 
     // Verificando colisao com a snake
-    if (
-      s
-        .filter((x) => x.class !== 'head')
-        .map((x) => x.position)
-        .includes(headPosition)
-    ) {
-      init();
+    if (s.filter((x) => x.class !== 'head' && x.position === headPosition).length) {
+      restart();
       return;
     }
 
@@ -110,10 +114,8 @@ function Snake() {
 
       s.splice(1, 0, { class: 'body', position: s[0].position });
 
-      setTime((state) => (state - 100 <= 75 ? 75 : state - 100));
-      setFoodPosition(
-        freePosition[Math.floor(Math.random() * freePosition.length)]
-      );
+      setTime((state) => (state - 50 <= 100 ? 100 : state - 50));
+      setFoodPosition(freePosition[Math.floor(Math.random() * freePosition.length)]);
     }
 
     setSnake(s);
