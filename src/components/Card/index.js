@@ -16,11 +16,7 @@ function Card(props) {
         aria-label="play"
         onClick={() => history.push(game.name.replace(/ /g, ''))}
       >
-        <img
-          src={require('../../assets/play.png')}
-          alt="play"
-          draggable="false"
-        />
+        <img src={require('../../assets/play.png')} alt="play" draggable="false" />
       </button>
     </Container>
   );

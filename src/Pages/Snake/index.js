@@ -7,21 +7,8 @@ function Snake() {
   const [time, setTime] = useState();
   const [foodPosition, setFoodPosition] = useState();
 
-  // Inicializando variaveis de estado
-  useEffect(() => {
-    setSnake([
-      { class: 'tail', position: 1 },
-      { class: 'body', position: 2 },
-      { class: 'head', position: 3 },
-    ]);
-
-    setDirection({ current: 'D', next: 'D' });
-    setFoodPosition(Math.floor(Math.random() * 447) + 4);
-    setTime(600);
-  }, []);
-
-  // Função de restart
-  const restart = () => {
+  // Inicializando configurações iniciais
+  const init = () => {
     setSnake([
       { class: 'tail', position: 1 },
       { class: 'body', position: 2 },
@@ -32,6 +19,11 @@ function Snake() {
     setFoodPosition(Math.floor(Math.random() * 447) + 4);
     setTime(600);
   };
+
+  // Carregando configurações iniciais ao chamar a pagina do jogo
+  useEffect(() => {
+    init();
+  }, []);
 
   // Adicionado evento de mudanca de direcao
   useEffect(() => {
@@ -102,7 +94,7 @@ function Snake() {
 
     // Verificando colisao com a snake
     if (s.filter((x) => x.class !== 'head' && x.position === headPosition).length) {
-      restart();
+      init();
       return;
     }
 
